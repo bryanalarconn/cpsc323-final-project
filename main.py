@@ -170,6 +170,8 @@ terminals = [
   '$'
 ]
 
+reserved_words = ["program", "var", "begin", "end", "integer", "show"]
+
 def tokenize(filename):
     token_pattern = r'"value="' + r'|:=|==|!=|[a-zA-Z_][a-zA-Z0-9_]*|\d+|[+\-*/=;:(),]'
 
@@ -181,7 +183,13 @@ def tokenize(filename):
             if not line:
                 continue
             line_tokens = re.findall(token_pattern, line)
-            tokens.extend(line_tokens)
+            
+            for tok in line_tokens:
+                if tok in reserved_words:
+                    tokens.append(tok)
+                else:
+                    tokens.extend(list(tok))
+            
 
     tokens.append('$')
     return tokens
@@ -197,7 +205,7 @@ def parse(tokens):
         top = stack[-1] # Top of the stack
         current_token = tokens[pointer] if pointer < len(tokens) else '$'
 
-        print(f"{''.join(stack):<30} {current_token[pointer:]:<30}", end=' ')
+        print(f"{''.join(stack):<30} {current_token:<30}", end=' ')
 
         if top == current_token == '$':
             print("ACCEPTED")
