@@ -57,7 +57,7 @@ parsing_table = {
     'K': {
         'show': ['C', 'K'],
         'a': ['C', 'K'], 'b': ['C', 'K'], 'r': ['C', 'K'], 's': ['C', 'K'],
-        # 'end': []
+        'end': []
     },
     # <stat>
     # C -> W
