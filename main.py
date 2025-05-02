@@ -4,7 +4,7 @@ parsing_table = {
     # <prog>
     # P -> program
     'P': {
-        'program': ['program', 'I', 'var', 'X', 'begin', 'B', 'end']
+        'program': ['program', 'I', ';', 'var', 'X', 'begin', 'B', 'end']
     },
     # <identifier>
     # I -> LH
@@ -19,7 +19,7 @@ parsing_table = {
         'a': ['L', 'H'], 'b': ['L', 'H'], 'r': ['L', 'H'], 's': ['L', 'H'],
         '0': ['D', 'H'], '1': ['D', 'H'], '2': ['D', 'H'], '3': ['D', 'H'], '4': ['D', 'H'],
         '5': ['D', 'H'], '6': ['D', 'H'], '7': ['D', 'H'], '8': ['D', 'H'], '9': ['D', 'H'],
-        '=': [], ';': [], ')': [], '+': [], '-': [], '*': [], '/': [], ',': []
+        '=': [], ';': [], ')': [], '+': [], '-': [], '*': [], '/': [], ',': [], ':' : []
     },
     # <dec-list>
     # X -> Y:Z;
@@ -29,7 +29,7 @@ parsing_table = {
     # <dec>
     # X -> I,Y
     'Y': {
-        'a': ['I', ',', 'Y'], 'b': ['I', ',', 'Y'], 'r': ['I', ',', 'Y'], 's': ['I', ',', 'Y']
+        'a' : ['I', 'J'], 'b' : ['I', 'J'], 'r' : ['I', 'J'], 's' : ['I', 'J']
     },
     # <post-dec>
     # J -> ,YJ
@@ -57,7 +57,7 @@ parsing_table = {
     'K': {
         'show': ['C', 'K'],
         'a': ['C', 'K'], 'b': ['C', 'K'], 'r': ['C', 'K'], 's': ['C', 'K'],
-        'end': []
+        # 'end': []
     },
     # <stat>
     # C -> W
@@ -75,7 +75,7 @@ parsing_table = {
     # G -> "value=",
     # G -> λ
     'G' : {
-        '"value="' : ['"value="', ','],
+        '“value=”,' : ['“value=”,'],
         'a': [], 'b': [], 'r': [], 's': []
     },
     # <assign>
@@ -163,17 +163,18 @@ parsing_table = {
 
 # Terminals
 terminals = [
-  '+', '-', '*', '/', '=', ';', ':', ',', '(', ')', '"value="',
+  '+', '-', '*', '/', '=', ';', ':', ',', '(', ')', '“value=”,',
   'program', 'var', 'integer', 'begin', 'end', 'show',
   '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
   'a', 'b', 'r', 's',
   '$'
 ]
 
-reserved_words = ["program", "var", "begin", "end", "integer", "show"]
+reserved_words = ["program", "var", "begin", "end", "integer", "show", '“value=”,']
 
 def tokenize(filename):
-    token_pattern = r'"value="' + r'|:=|==|!=|[a-zA-Z_][a-zA-Z0-9_]*|\d+|[+\-*/=;:(),]'
+    token_pattern = r'“value=”,|:=|==|!=|[a-zA-Z_][a-zA-Z0-9_]*|\d+|[+\-*/=;:(),]'
+
 
     tokens = []
 

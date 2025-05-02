@@ -1,0 +1,1 @@
+print(f"{''.join(stack):<30} {current_token[pointer:]:<30}", end=' ')
