@@ -195,6 +195,15 @@ def tokenize(filename):
     tokens.append('$')
     return tokens
 
+def searchMissing(filename, char):
+    with open(filename, 'r', encoding='utf-8') as file:
+        for line in file:
+            line = line.strip()
+            if line.endswith(char):
+                continue
+            else:
+                print(f"SOME ERRORS: '{char}' is missing")
+
 def parse(tokens):
     stack = ['$', 'P']
     pointer = 0
@@ -209,7 +218,7 @@ def parse(tokens):
         print(f"{''.join(stack):<30} {current_token:<30}", end=' ')
 
         if top == current_token == '$':
-            print("ACCEPTED")
+            print("NO ERROR: ACCEPTED")
             return True
 
         elif top in terminals:
@@ -218,7 +227,7 @@ def parse(tokens):
                 pointer += 1
                 print(f"'{top}'")
             else:
-                print(f"ERROR: expected '{top}', found '{current_token}'")
+                print(f"SOME ERRORS: '{top}' is expected, found '{current_token}'")
                 return False
         else:
             rule = parsing_table.get(top, {}).get(current_token) # Retrieving the correct column based on current input char
@@ -231,7 +240,7 @@ def parse(tokens):
                 else:
                     print(f"{top} -> λ")
             else:
-                print(f"ERROR: no rule for ({top}, {current_token})")
+                searchMissing("final25missing.txt", ";")
                 return False
 
 def main():
