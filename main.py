@@ -55,8 +55,8 @@ parsing_table = {
     # K -> CK
     # K -> λ
     'K': {
-        'show': ['C', 'K'],
-        'a': ['C', 'K'], 'b': ['C', 'K'], 'r': ['C', 'K'], 's': ['C', 'K'],
+        'show': ['B'],
+        'a': ['B'], 'b': ['B'], 'r': ['B'], 's': ['B'],
         'end': []
     },
     # <stat>
@@ -240,7 +240,9 @@ def parse(tokens):
                 else:
                     print(f"{top} -> λ")
             else:
-                searchMissing("final25missing.txt", ";")
+                expected_tokens = list(parsing_table.get(top, {}).keys())
+                expected_token = expected_tokens[0]
+                print(f"SOME ERRORS: '{expected_token}' is expected, found '{current_token}'")
                 return False
 
 def main():
